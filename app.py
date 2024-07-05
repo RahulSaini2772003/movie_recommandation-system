@@ -47,13 +47,13 @@ def recommend_movies(title, cosine_sim, df, indices):
     idx = indices[title]
     sim_scores = list(enumerate(cosine_sim[idx]))
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-    sim_scores = sim_scores[1:6] 
+    sim_scores = sim_scores[1:7] 
     movie_indices = [i[0] for i in sim_scores]
     return df.iloc[movie_indices][['Series_Title', 'Poster_Link','combined_features','IMDB_Rating','Runtime','Genre','Overview']]
 
 
 def main():
-   
+    st.set_page_config(layout="wide")
     @st.cache_data()
     def get_base64_of_bin_file(bin_file):
         with open(bin_file, 'rb') as f:
@@ -75,24 +75,44 @@ def main():
         top: 0;
         left: 0;
     }}
+    .centered-title {{
+        text-align: center;
+        margin: 0 auto;
+        color: white;
+    }}
+    .stSelectbox{{
+        margin: 0 auto !important;
+        width: 60vw !important;
+    }}
+    .stButton button {{
+        margin: 0 15vw !important;
+        display: block;
+        }}
+    .stTitle title{{
+        margin: 0 auto !important;
+        }}
     </style>'''
+    
     st.markdown(page_bg_img, unsafe_allow_html=True)
     
-    st.title('Movie Recommendation System')
+    st.markdown('<div class="centered-title"><h1>Movie Recommendation System</h1></div>', unsafe_allow_html=True)
+    
+    # st.title('Movie Recommendation System')
     
     movie_title = st.selectbox('Select a Movie', simple_df['Series_Title'])
 
     if st.button('Recommend'):
         recommended_movies = recommend_movies(movie_title, cosine_sim, simple_df, indices)
         st.subheader(f'Movies Similar to {movie_title}:')
+        st.write("")
 
         # Create a row of columns for recommended movies
-        cols = st.columns(5)
+        cols = st.columns([10, 10, 10, 10, 10, 10])
         for idx, (i, row) in enumerate(recommended_movies.iterrows()):
             with cols[idx]:
                 st.image(row['Poster_Link'], use_column_width=True)
                 st.markdown(f"""
-                    <div style="font-size:20px; font-weight:bold;">{row['Series_Title']}</div>
+                    <div style="font-size:26px; font-weight:bold;">{row['Series_Title']}</div>
                     <div style="font-size:15px; color:#edbcf9;">IMDB Rating: {row['IMDB_Rating']}</div>
                     <div style="font-size:15px; color:#7fafd6;">Runtime: {row['Runtime']} min</div>
                     <div style="font-size:15px; color:orange;">Genre: {', '.join(row['Genre'])}</div>
