@@ -27,10 +27,6 @@ To run the Streamlit app:
 streamlit run app.py
 This command will start the Streamlit server and open your default web browser to view the application.
 
-
-Project Structure:
-Optionally, describe the structure of project directory and key files.
-
 ## Project Structure
 - `app.py`: Main Streamlit application script.
 - `requirements.txt`: File containing all necessary Python libraries and their versions.
