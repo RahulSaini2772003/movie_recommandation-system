@@ -110,7 +110,7 @@ def main():
         cols = st.columns([10, 10, 10, 10, 10, 10])
         for idx, (i, row) in enumerate(recommended_movies.iterrows()):
             with cols[idx]:
-                st.image(row['Poster_Link'], use_column_width=True)
+                st.image(row['Poster_Link'], use_container_width=True)
                 st.markdown(f"""
                     <div style="font-size:26px; font-weight:bold;">{row['Series_Title']}</div>
                     <div style="font-size:15px; color:#edbcf9;">IMDB Rating: {row['IMDB_Rating']}</div>
